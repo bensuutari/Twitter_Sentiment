@@ -8,9 +8,9 @@ from nltk.classify.scikitlearn import SklearnClassifier#import NLTK's SciKitLear
 from nltk.classify import ClassifierI#inherit from the nltk classifier class
 from nltk.tag.perceptron import PerceptronTagger
 from nltk.corpus import stopwords
-from sklearn.naive_bayes import MultinomialNB, GaussianNB, BernoulliNB#nonbinary distribution=NB
-from sklearn.linear_model import LogisticRegression,SGDClassifier#SGD=schochastic gradient descent
-from sklearn.svm import SVC,LinearSVC,NuSVC
+from sklearn.naive_bayes import MultinomialNB, BernoulliNB#multinomial binomial, gaussian nonbinary, bernoulli nonbinary
+from sklearn.linear_model import LogisticRegression,SGDClassifier#logistic regression, stochastic gradient descent
+from sklearn.svm import SVC,LinearSVC,NuSVC#suppor vector classifier, nu support vector classifier
 from statistics import mode
 import random
 import pickle
@@ -18,6 +18,7 @@ import sys
 import time
 import string
 import os
+
 tagger = PerceptronTagger()
 tagset = None
 reload(sys)
@@ -27,7 +28,7 @@ sys.setdefaultencoding('Cp1252')
 allowed_word_types=['J','V']#['J','V','N','R']
 
 parse_data=False
-traindata=True
+train_data=True
 
 lemmatizer=WordNetLemmatizer()
 
@@ -177,7 +178,7 @@ random.shuffle(featuresets)
 training_set=featuresets[:18000]
 testing_set=featuresets[18000:]
 print('start training data')
-if traindata:
+if train_data:
 	classifier=nltk.NaiveBayesClassifier.train(training_set)
 	save_classifier=open(os.getcwd()+'/pickled_classifiers/naivebayes.pickle','wb')
 	pickle.dump(classifier,save_classifier)
@@ -191,17 +192,8 @@ if traindata:
 	pickle.dump(MNB_classifier,save_classifier)
 	save_classifier.close()
 	print('Trained Multinomial Bayes')
-
-	#use GaussianNB
-	"""
-	GNB_classifier=SklearnClassifier(GaussianNB())
-	GNB_classifier.train(training_set)
-	save_classifier=open(os.getcwd()+'/pickled_classifiers/GNB.pickle','wb')
-	pickle.dump(GNB_classifier,save_classifier)
-	save_classifier.close()
-	"""
 	
-	#use BernoulliNB
+	#use bernoulli nonbinary
 	BNB_classifier=SklearnClassifier(BernoulliNB())
 	BNB_classifier.train(training_set)
 	save_classifier=open(os.getcwd()+'/pickled_classifiers/BNB.pickle','wb')
@@ -209,7 +201,7 @@ if traindata:
 	save_classifier.close()
 	print('Trained Bernoulli NB')
 
-	#use LogisticRegression
+	#use logitics regression
 	LogisticRegression_classifier=SklearnClassifier(LogisticRegression())
 	LogisticRegression_classifier.train(training_set)
 	save_classifier=open(os.getcwd()+'/pickled_classifiers/LR.pickle','wb')
@@ -225,7 +217,7 @@ if traindata:
 	save_classifier.close()
 	print('Trained Stochastic GD')
 
-	#use SVC classifier
+	#use support vector classifier
 	SVC_classifier=SklearnClassifier(SVC())
 	SVC_classifier.train(training_set)
 	save_classifier=open(os.getcwd()+'/pickled_classifiers/SVC.pickle','wb')
@@ -234,7 +226,7 @@ if traindata:
 	print('Trained SVC')
 
 
-	#use LinearSVC classifier
+	#use linear support vector classifier
 	LinearSVC_classifier=SklearnClassifier(LinearSVC())
 	LinearSVC_classifier.train(training_set)
 	save_classifier=open(os.getcwd()+'/pickled_classifiers/LinearSVC.pickle','wb')
@@ -242,7 +234,7 @@ if traindata:
 	save_classifier.close()
 	print('Trained Linear SVC')
 
-	#use NuSVC classifier
+	#use Nu support vector classifier
 	NuSVC_classifier=SklearnClassifier(NuSVC())
 	NuSVC_classifier.train(training_set)
 	save_classifier=open(os.getcwd()+'/pickled_classifiers/NuSVC.pickle','wb')
@@ -257,12 +249,6 @@ else:
 	classifier_f=open(os.getcwd()+'/pickled_classifiers/MNB.pickle',"rb")
 	MNB_classifier=pickle.load(classifier_f)
 	classifier_f.close()
-
-	"""
-	classifier_f=open(os.getcwd()+'/pickled_classifiers/GNB.pickle',"rb")
-	GNB_classifier=pickle.load(classifier_f)
-	classifier_f.close()
-	"""
 
 	classifier_f=open(os.getcwd()+'/pickled_classifiers/BNB.pickle',"rb")
 	BNB_classifier=pickle.load(classifier_f)
@@ -293,7 +279,6 @@ else:
 
 print('Naive Bayes accuracy:'+str(nltk.classify.accuracy(classifier,testing_set)))
 print('MNB_classifier accuracy:'+str(nltk.classify.accuracy(MNB_classifier,testing_set)))
-#print('GNB_classifier accuracy:'+str(nltk.classify.accuracy(GNB_classifier,testing_set)))
 print('BNB_classifier accuracy:'+str(nltk.classify.accuracy(BNB_classifier,testing_set)))
 print('LogisticRegression_classifier accuracy:'+str(nltk.classify.accuracy(LogisticRegression_classifier,testing_set)))
 print('SGDClassifier_classifier accuracy:'+str(nltk.classify.accuracy(SGD_classifier,testing_set)))
