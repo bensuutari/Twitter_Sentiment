@@ -171,18 +171,19 @@ else:
 
 
 random.shuffle(featuresets)
-#total number of featuresets=10,000
+#use first 18,000 features to train and remaining to test (~10% of data for training)
 training_set=featuresets[:18000]
 testing_set=featuresets[18000:]
 print('start training data')
 if train_data:
+	#use naive bayes
 	classifier=nltk.NaiveBayesClassifier.train(training_set)
 	save_classifier=open(os.getcwd()+'/pickled_classifiers/naivebayes.pickle','wb')
 	pickle.dump(classifier,save_classifier)
 	save_classifier.close()
 	print('Trained Naive Bayes')
 	
-	#use multinomial naive bayes
+	#use multinomial nonbinary
 	MNB_classifier=SklearnClassifier(MultinomialNB())
 	MNB_classifier.train(training_set)
 	save_classifier=open(os.getcwd()+'/pickled_classifiers/MNB.pickle','wb')
@@ -198,7 +199,7 @@ if train_data:
 	save_classifier.close()
 	print('Trained Bernoulli NB')
 
-	#use logitics regression
+	#use logitic regression
 	LogisticRegression_classifier=SklearnClassifier(LogisticRegression())
 	LogisticRegression_classifier.train(training_set)
 	save_classifier=open(os.getcwd()+'/pickled_classifiers/LR.pickle','wb')
