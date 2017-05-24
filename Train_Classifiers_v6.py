@@ -176,12 +176,13 @@ random.shuffle(featuresets)
 #total number of featuresets=10,000
 training_set=featuresets[:18000]
 testing_set=featuresets[18000:]
-print('onto training data')
+print('start training data')
 if traindata:
 	classifier=nltk.NaiveBayesClassifier.train(training_set)
 	save_classifier=open(os.getcwd()+'/pickled_classifiers/naivebayes.pickle','wb')
 	pickle.dump(classifier,save_classifier)
 	save_classifier.close()
+	print('Trained Naive Bayes')
 	
 	#use multinomial naive bayes
 	MNB_classifier=SklearnClassifier(MultinomialNB())
@@ -189,13 +190,16 @@ if traindata:
 	save_classifier=open(os.getcwd()+'/pickled_classifiers/MNB.pickle','wb')
 	pickle.dump(MNB_classifier,save_classifier)
 	save_classifier.close()
+	print('Trained Multinomial Bayes')
 
 	#use GaussianNB
+	"""
 	GNB_classifier=SklearnClassifier(GaussianNB())
 	GNB_classifier.train(training_set)
 	save_classifier=open(os.getcwd()+'/pickled_classifiers/GNB.pickle','wb')
 	pickle.dump(GNB_classifier,save_classifier)
 	save_classifier.close()
+	"""
 	
 	#use BernoulliNB
 	BNB_classifier=SklearnClassifier(BernoulliNB())
@@ -203,6 +207,7 @@ if traindata:
 	save_classifier=open(os.getcwd()+'/pickled_classifiers/BNB.pickle','wb')
 	pickle.dump(BNB_classifier,save_classifier)
 	save_classifier.close()
+	print('Trained Bernoulli NB')
 
 	#use LogisticRegression
 	LogisticRegression_classifier=SklearnClassifier(LogisticRegression())
@@ -210,6 +215,7 @@ if traindata:
 	save_classifier=open(os.getcwd()+'/pickled_classifiers/LR.pickle','wb')
 	pickle.dump(LogisticRegression_classifier,save_classifier)
 	save_classifier.close()
+	print('Trained Logistic Regression')
 
 	#use stochastic gradient descent classifier
 	SGD_classifier=SklearnClassifier(SGDClassifier())
@@ -217,6 +223,7 @@ if traindata:
 	save_classifier=open(os.getcwd()+'/pickled_classifiers/SGD.pickle','wb')
 	pickle.dump(SGD_classifier,save_classifier)
 	save_classifier.close()
+	print('Trained Stochastic GD')
 
 	#use SVC classifier
 	SVC_classifier=SklearnClassifier(SVC())
@@ -224,6 +231,7 @@ if traindata:
 	save_classifier=open(os.getcwd()+'/pickled_classifiers/SVC.pickle','wb')
 	pickle.dump(SVC_classifier,save_classifier)
 	save_classifier.close()
+	print('Trained SVC')
 
 
 	#use LinearSVC classifier
@@ -232,6 +240,7 @@ if traindata:
 	save_classifier=open(os.getcwd()+'/pickled_classifiers/LinearSVC.pickle','wb')
 	pickle.dump(LinearSVC_classifier,save_classifier)
 	save_classifier.close()
+	print('Trained Linear SVC')
 
 	#use NuSVC classifier
 	NuSVC_classifier=SklearnClassifier(NuSVC())
@@ -239,6 +248,7 @@ if traindata:
 	save_classifier=open(os.getcwd()+'/pickled_classifiers/NuSVC.pickle','wb')
 	pickle.dump(NuSVC_classifier,save_classifier)
 	save_classifier.close()
+	print('Trained Nu SVC')
 else:
 	classifier_f=open(os.getcwd()+'/pickled_classifiers/naivebayes.pickle',"rb")
 	classifier=pickle.load(classifier_f)
@@ -248,9 +258,11 @@ else:
 	MNB_classifier=pickle.load(classifier_f)
 	classifier_f.close()
 
+	"""
 	classifier_f=open(os.getcwd()+'/pickled_classifiers/GNB.pickle',"rb")
 	GNB_classifier=pickle.load(classifier_f)
 	classifier_f.close()
+	"""
 
 	classifier_f=open(os.getcwd()+'/pickled_classifiers/BNB.pickle',"rb")
 	BNB_classifier=pickle.load(classifier_f)
@@ -279,9 +291,9 @@ else:
 
 
 
-print('Naive Bayes Algo accuracy:'+str(nltk.classify.accuracy(classifier,testing_set)))
+print('Naive Bayes accuracy:'+str(nltk.classify.accuracy(classifier,testing_set)))
 print('MNB_classifier accuracy:'+str(nltk.classify.accuracy(MNB_classifier,testing_set)))
-print('GNB_classifier accuracy:'+str(nltk.classify.accuracy(GNB_classifier,testing_set)))
+#print('GNB_classifier accuracy:'+str(nltk.classify.accuracy(GNB_classifier,testing_set)))
 print('BNB_classifier accuracy:'+str(nltk.classify.accuracy(BNB_classifier,testing_set)))
 print('LogisticRegression_classifier accuracy:'+str(nltk.classify.accuracy(LogisticRegression_classifier,testing_set)))
 print('SGDClassifier_classifier accuracy:'+str(nltk.classify.accuracy(SGD_classifier,testing_set)))
