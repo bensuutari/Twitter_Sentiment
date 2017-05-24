@@ -14,15 +14,12 @@ from sklearn.svm import SVC,LinearSVC,NuSVC#suppor vector classifier, nu support
 from statistics import mode
 import random
 import pickle
-import sys
 import time
 import string
 import os
 
 tagger = PerceptronTagger()
 tagset = None
-reload(sys)
-sys.setdefaultencoding('Cp1252')
 
 #Define which parts of speech to be used for training, J=Adjective,V=Verb,N=Noun,R=Adverb
 allowed_word_types=['J','V']#['J','V','N','R']
