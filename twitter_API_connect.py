@@ -3,9 +3,10 @@ from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
 import time
 import json
-import sentiment_mod as s
+import sentiment_classify as s
+import os
 
-openfile=open('/home/ben/Dropbox/python/Twitter_Sentiment /twitter_API_info.txt','rb')
+openfile=open(os.getcwd()+'/twitter_API_info.txt','rb')
 readdata=openfile.read().split('\n')
 openfile.close()
 
@@ -37,4 +38,6 @@ auth = OAuthHandler(ckey, csecret)
 auth.set_access_token(atoken, asecret)
 
 twitterStream = Stream(auth, listener())
-twitterStream.filter(track=["Trump"])
+
+topic_to_track=raw_input('What Twitter topic would you like to track (enter a topic and press enter)?')
+twitterStream.filter(track=[topic_to_track])
